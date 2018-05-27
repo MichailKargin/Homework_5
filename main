@@ -1,0 +1,56 @@
+/**
+ * Created by 12 on 27.05.2018.
+ */
+
+import terminal.*;
+
+public class Main {
+
+    public static void main(String[] args) throws InterruptedException {
+        Terminal terminal = getTerminal();
+
+        if (terminal.isSessionStarted("wrong account number")) {
+
+        } else {
+            if (terminal.isSessionStarted("10001")) {
+
+                terminal.getAccountBalance();
+
+                terminal.isPinEntered("wrong pin");
+
+                terminal.isPinEntered("1235");
+                terminal.isPinEntered("1235");
+                terminal.isPinEntered("1235");
+
+                terminal.getAccountBalance();
+
+                // необходимо подождать когда счет разблокируется
+                System.out.println("Ждем 3 секунды");
+                Thread.sleep(3 * 1000);
+                terminal.isPinEntered("1234");
+                System.out.println("Ждем еще 2 секунды");
+                Thread.sleep(3 * 1000);
+
+
+                // корректный пин
+                terminal.isPinEntered("1234");
+
+                terminal.getAccountBalance();
+
+                terminal.getCash(150);
+                terminal.getCash(200);
+
+                terminal.putCash(150);
+                terminal.putCash(500);
+
+                terminal.getCash(300);
+
+                terminal.stopSession();
+            }
+        }
+    }
+
+    private static Terminal getTerminal() {
+        return new TerminalImpl(new TerminalServerImpl(), new ValidatorImpl());
+    }
+}
